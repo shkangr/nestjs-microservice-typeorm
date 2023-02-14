@@ -15,6 +15,7 @@ export class AppController {
   @UseGuards(AuthGuard('jwt'))
   @Get('secure')
   getProtectedResource(@Res() res: Response) {
+    console.log('hello world')
     return res.status(HttpStatus.OK).json(this.appService.getSecureResource());
   }
 }
