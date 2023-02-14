@@ -7,9 +7,11 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "format": "prettier --write \\\"apps/**/*.ts\\\" \\\"test/**/*.ts\\\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
+    "start:user": "nest start user -d",
+    "start:user:dev": "nest start user -d --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "start:repl": "nest start --entryFile repl",
@@ -26,6 +28,7 @@
     "@nestjs/core": "^9.0.1",
     "@nestjs/jwt": "^10.0.1",
     "@nestjs/mapped-types": "1.2.0",
+    "@nestjs/microservices": "^9.3.8",
     "@nestjs/passport": "^9.0.0",
     "@nestjs/platform-express": "^9.0.1",
     "@nestjs/swagger": "^6.1.4",
@@ -37,6 +40,7 @@
     "express-basic-auth": "^1.2.1",
     "handlebars": "^4.7.7",
     "mysql2": "^2.3.3",
+    "nats": "^2.12.0",
     "nodemailer": "^6.7.7",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
@@ -72,13 +76,19 @@
     "typescript": "^4.7.4"
   },
   "jest": {
-    "moduleFileExtensions": ["js", "json", "ts"],
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
     "rootDir": "src",
     "testRegex": ".spec.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
-    "collectCoverageFrom": ["**/*.{!(module),}.(t|j)s"],
+    "collectCoverageFrom": [
+      "**/*.{!(module),}.(t|j)s"
+    ],
     "coveragePathIgnorePatterns": [
       "/src/migrations",
       "/src/helpers",
@@ -86,6 +96,6 @@
       "/src/repl.ts"
     ],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node"  
+    "testEnvironment": "node"
   }
 }

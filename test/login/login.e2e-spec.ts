@@ -1,12 +1,12 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import * as request from 'supertest';
-import { AppModule } from './../../src/app.module';
-import { AuthGuard } from '@nestjs/passport';
-import { MailerService } from '../../src/mailer/mailer.service';
-import { HttpStatus } from '@nestjs/common';
+import { Test, TestingModule } from '@nestjs/testing'
+import * as request from 'supertest'
+import { AppModule } from '../../apps/user/app.module'
+import { AuthGuard } from '@nestjs/passport'
+import { MailerService } from '../../apps/mailer/mailer.service'
+import { HttpStatus } from '@nestjs/common'
 
 describe('App (e2e)', () => {
-  let app;
+  let app
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -18,11 +18,11 @@ describe('App (e2e)', () => {
       })
       .overrideGuard(AuthGuard('jwt'))
       .useValue({ canActivate: () => true })
-      .compile();
+      .compile()
 
-    app = moduleFixture.createNestApplication();
-    await app.init();
-  });
+    app = moduleFixture.createNestApplication()
+    await app.init()
+  })
 
   describe('LoginController (e2e) -  [POST /api/auth/login]', () => {
     it('Login and generate token JWT', () => {
@@ -32,8 +32,8 @@ describe('App (e2e)', () => {
           email: 'test@example.it',
           password: '123456',
         })
-        .expect(HttpStatus.OK);
-    });
+        .expect(HttpStatus.OK)
+    })
 
     it('should throw an error for a bad email', () => {
       return request(app.getHttpServer())
@@ -41,8 +41,8 @@ describe('App (e2e)', () => {
         .send({
           password: '123456',
         })
-        .expect(HttpStatus.BAD_REQUEST);
-    });
+        .expect(HttpStatus.BAD_REQUEST)
+    })
 
     it('should throw an error for a bad password', () => {
       return request(app.getHttpServer())
@@ -50,11 +50,11 @@ describe('App (e2e)', () => {
         .send({
           email: 'test@example.it',
         })
-        .expect(HttpStatus.BAD_REQUEST);
-    });
-  });
+        .expect(HttpStatus.BAD_REQUEST)
+    })
+  })
 
   afterAll(async () => {
-    await app.close();
-  });
-});
+    await app.close()
+  })
+})

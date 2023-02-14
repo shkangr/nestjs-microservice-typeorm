@@ -1,32 +1,32 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import * as request from 'supertest';
-import { AppModule } from './../../src/app.module';
-import { AuthGuard } from '@nestjs/passport';
-import { MailerService } from '../../src/mailer/mailer.service';
-import { HttpStatus } from '@nestjs/common';
+import { Test, TestingModule } from '@nestjs/testing'
+import * as request from 'supertest'
+import { AppModule } from '../../apps/user/app.module'
+import { AuthGuard } from '@nestjs/passport'
+import { MailerService } from '../../apps/mailer/mailer.service'
+import { HttpStatus } from '@nestjs/common'
 
 const createUserDto = {
   name: 'name#1',
   username: 'username#1',
   email: 'test@example.it',
   password: '123456',
-};
+}
 
 const updateUserDto = {
   name: 'name#1 update',
   username: 'username#1 update',
   email: 'test@example.it',
   password: '123456',
-};
+}
 
 const updateProfileUserDto = {
   name: 'name#1 update',
   username: 'username#1 update',
   email: 'test@example.it',
-};
+}
 
 describe('App (e2e)', () => {
-  let app;
+  let app
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -38,11 +38,11 @@ describe('App (e2e)', () => {
       })
       .overrideGuard(AuthGuard('jwt'))
       .useValue({ canActivate: () => true })
-      .compile();
+      .compile()
 
-    app = moduleFixture.createNestApplication();
-    await app.init();
-  });
+    app = moduleFixture.createNestApplication()
+    await app.init()
+  })
 
   describe('UserController (e2e)', () => {
     describe('Create user [POST /api/users]', () => {
@@ -51,9 +51,9 @@ describe('App (e2e)', () => {
           .post('/users')
           .send(createUserDto)
           .then(({ body }) => {
-            expect(body).toEqual(createUserDto);
-          });
-      });
+            expect(body).toEqual(createUserDto)
+          })
+      })
 
       it('should throw an error for a bad email', () => {
         return request(app.getHttpServer())
@@ -63,8 +63,8 @@ describe('App (e2e)', () => {
             username: 'username#1',
             password: '123456',
           })
-          .expect(HttpStatus.BAD_REQUEST);
-      });
+          .expect(HttpStatus.BAD_REQUEST)
+      })
 
       it('should throw an error for a bad password', () => {
         return request(app.getHttpServer())
@@ -74,8 +74,8 @@ describe('App (e2e)', () => {
             username: 'username#1',
             email: 'test@example.it',
           })
-          .expect(HttpStatus.BAD_REQUEST);
-      });
+          .expect(HttpStatus.BAD_REQUEST)
+      })
 
       it('should throw an error for a bad name', () => {
         return request(app.getHttpServer())
@@ -85,8 +85,8 @@ describe('App (e2e)', () => {
             password: '123456',
             email: 'test@example.it',
           })
-          .expect(HttpStatus.BAD_REQUEST);
-      });
+          .expect(HttpStatus.BAD_REQUEST)
+      })
 
       it('should throw an error for a bad username', () => {
         return request(app.getHttpServer())
@@ -96,9 +96,9 @@ describe('App (e2e)', () => {
             email: 'test@example.it',
             password: '123456',
           })
-          .expect(HttpStatus.BAD_REQUEST);
-      });
-    });
+          .expect(HttpStatus.BAD_REQUEST)
+      })
+    })
 
     describe('Get all users [GET /api/users]', () => {
       it('should get all users', async () => {
@@ -106,10 +106,10 @@ describe('App (e2e)', () => {
           .get('/users')
           .expect(HttpStatus.OK)
           .then(({ body }) => {
-            expect(body).toBeDefined();
-          });
-      });
-    });
+            expect(body).toBeDefined()
+          })
+      })
+    })
 
     describe('Get one user [GET /api/users/:id]', () => {
       it('should get one user', async () => {
@@ -117,19 +117,19 @@ describe('App (e2e)', () => {
           .get('/users/1')
           .expect(HttpStatus.OK)
           .then(({ body }) => {
-            expect(body).toBeDefined();
-          });
-      });
+            expect(body).toBeDefined()
+          })
+      })
 
       it('should return an incorrect request if it does not find the id', () => {
         return request(app.getHttpServer())
           .get('/users/30')
           .expect(HttpStatus.BAD_REQUEST)
           .then(({ body }) => {
-            expect(body).toBeDefined();
-          });
-      });
-    });
+            expect(body).toBeDefined()
+          })
+      })
+    })
 
     describe('Get one user profile [GET /api/users/:id/profile]', () => {
       it('should get one user profile', async () => {
@@ -137,19 +137,19 @@ describe('App (e2e)', () => {
           .get('/users/1/profile')
           .expect(HttpStatus.OK)
           .then(({ body }) => {
-            expect(body).toBeDefined();
-          });
-      });
+            expect(body).toBeDefined()
+          })
+      })
 
       it('should return an incorrect request if it does not find the user profile id', () => {
         return request(app.getHttpServer())
           .get('/users/20/profile')
           .expect(HttpStatus.BAD_REQUEST)
           .then(({ body }) => {
-            expect(body).toBeDefined();
-          });
-      });
-    });
+            expect(body).toBeDefined()
+          })
+      })
+    })
 
     describe('Update one user profile [PUT /api/users/:id/profile]', () => {
       it('should update one user profile by id', () => {
@@ -158,9 +158,9 @@ describe('App (e2e)', () => {
           .send(updateProfileUserDto)
           .expect(HttpStatus.OK)
           .then(({ body }) => {
-            expect(body).toEqual(updateProfileUserDto);
-          });
-      });
+            expect(body).toEqual(updateProfileUserDto)
+          })
+      })
 
       it('should return an incorrect request if it does not find the id', () => {
         return request(app.getHttpServer())
@@ -168,10 +168,10 @@ describe('App (e2e)', () => {
           .send(updateProfileUserDto)
           .expect(HttpStatus.BAD_REQUEST)
           .then(({ body }) => {
-            expect(body).toEqual(updateProfileUserDto);
-          });
-      });
-    });
+            expect(body).toEqual(updateProfileUserDto)
+          })
+      })
+    })
 
     describe('Update one user [PUT /api/users/:id]', () => {
       it('should update one user', () => {
@@ -180,9 +180,9 @@ describe('App (e2e)', () => {
           .send(updateUserDto)
           .expect(HttpStatus.OK)
           .then(({ body }) => {
-            expect(body).toEqual(updateUserDto);
-          });
-      });
+            expect(body).toEqual(updateUserDto)
+          })
+      })
 
       it('should return an incorrect request if it does not find the id', () => {
         return request(app.getHttpServer())
@@ -190,27 +190,23 @@ describe('App (e2e)', () => {
           .send(updateUserDto)
           .expect(HttpStatus.BAD_REQUEST)
           .then(({ body }) => {
-            expect(body).toEqual(updateUserDto);
-          });
-      });
-    });
+            expect(body).toEqual(updateUserDto)
+          })
+      })
+    })
 
     describe('Delete on user [DELETE /api/users/:id]', () => {
       it('should delete one user by id', () => {
-        return request(app.getHttpServer())
-          .delete('/users/3')
-          .expect(HttpStatus.OK);
-      });
+        return request(app.getHttpServer()).delete('/users/3').expect(HttpStatus.OK)
+      })
 
       it('should return an incorrect request if it does not find the id', () => {
-        return request(app.getHttpServer())
-          .delete('/users/10')
-          .expect(HttpStatus.BAD_REQUEST);
-      });
-    });
-  });
+        return request(app.getHttpServer()).delete('/users/10').expect(HttpStatus.BAD_REQUEST)
+      })
+    })
+  })
 
   afterAll(async () => {
-    await app.close();
-  });
-});
+    await app.close()
+  })
+})
