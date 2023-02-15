@@ -47,12 +47,8 @@ export class UsersService {
   }
 
   public async create(request: UserDto): Promise<IUsers> {
-    try {
-      const creatableUser = this.userRepository.create(request)
-      return await this.userRepository.save(creatableUser)
-    } catch (err) {
-      throw new HttpException(err, HttpStatus.BAD_REQUEST)
-    }
+    const creatableUser = this.userRepository.create(request)
+    return await this.userRepository.save(creatableUser)
   }
 
   public async updateByEmail(email: string): Promise<Users> {

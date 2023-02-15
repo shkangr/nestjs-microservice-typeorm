@@ -10,6 +10,7 @@ export class RegisterService {
 
   public async register(request: RegisterUserDto): Promise<IUsers> {
     Logger.log('RegisterService.regiester.request', request)
+    console.log('request', request)
     request.password = await this.hashingService.hash(request.password)
     return this.usersService.create(request)
   }

@@ -11,6 +11,7 @@ import { ChangePasswordModule } from './change-password/change-password.module'
 import { ThrottlerModule } from '@nestjs/throttler'
 import { UtilsModule } from './shared/utils/utils.module'
 import * as Yup from 'yup'
+import { Users } from './users/entities/users.entity'
 
 @Module({
   imports: [
@@ -19,7 +20,7 @@ import * as Yup from 'yup'
       envFilePath: ['.env', '.env.dev', '.env.stage', '.env.prod'],
       validationSchema: Yup.object({
         TYPEORM_HOST: Yup.string().required(),
-        TYPEORM_PORT: Yup.number().default(3306),
+        TYPEORM_PORT: Yup.number().default(3333),
         TYPEORM_USERNAME: Yup.string().required(),
         TYPEORM_PASSWORD: Yup.string().required(),
         TYPEORM_DATABASE: Yup.string().required(),
@@ -44,7 +45,7 @@ import * as Yup from 'yup'
         password: config.get<string>('TYPEORM_PASSWORD'),
         database: config.get<string>('TYPEORM_DATABASE'),
         synchronize: true,
-        entities: ['dist/**/*.entity.js'],
+        entities: [Users],
         migrations: ['dist/migrations/**/*.js'],
         subscribers: ['dist/subscriber/**/*.js'],
         cli: {

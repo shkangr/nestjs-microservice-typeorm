@@ -1,9 +1,9 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
-import { RegisterUserDto } from './dto/register-user.dto';
-import { IUsers } from './../users/interfaces/users.interface';
-import { MailerService } from '../shared/mailer/mailer.service';
-import { HashingService } from '../shared/hashing/hashing.service';
+import { Injectable, Logger } from '@nestjs/common'
+import { UsersService } from '../users/users.service'
+import { RegisterUserDto } from './dto/register-user.dto'
+import { IUsers } from './../users/interfaces/users.interface'
+import { MailerService } from '../shared/mailer/mailer.service'
+import { HashingService } from '../shared/hashing/hashing.service'
 
 @Injectable()
 export class RegisterService {
@@ -14,13 +14,11 @@ export class RegisterService {
   ) {}
 
   public async register(registerUserDto: RegisterUserDto): Promise<IUsers> {
-    registerUserDto.password = await this.hashingService.hash(
-      registerUserDto.password,
-    );
+    registerUserDto.password = await this.hashingService.hash(registerUserDto.password)
 
-    this.sendMailRegisterUser(registerUserDto);
+    // this.sendMailRegisterUser(registerUserDto);
 
-    return this.usersService.create(registerUserDto);
+    return this.usersService.create(registerUserDto)
   }
 
   private sendMailRegisterUser(user): void {
@@ -33,16 +31,15 @@ export class RegisterService {
         template: 'index',
         context: {
           title: 'Registration successfully',
-          description:
-            "You did it! You registered!, You're successfully registered.✔",
+          description: "You did it! You registered!, You're successfully registered.✔",
           nameUser: user.name,
         },
       })
       .then((response) => {
-        Logger.log('User Registration: Send Mail successfully!', response);
+        Logger.log('User Registration: Send Mail successfully!', response)
       })
       .catch((err) => {
-        Logger.log('User Registration: Send Mail Failed!', err);
-      });
+        Logger.log('User Registration: Send Mail Failed!', err)
+      })
   }
 }

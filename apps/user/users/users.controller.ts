@@ -15,9 +15,10 @@ import { AuthGuard } from '@nestjs/passport'
 import { UserProfileDto } from './dto/user-profile.dto'
 import { UserUpdateDto } from './dto/user-update.dto'
 import { IUsers } from './interfaces/users.interface'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 
 @ApiTags('users')
+@ApiBearerAuth()
 @UseGuards(AuthGuard('jwt'))
 @Controller('users')
 export class UsersController {
@@ -71,7 +72,6 @@ export class UsersController {
   @Put('/:userId')
   public async updateUser(@Res() res, @Param('userId') userId: string, @Body() userUpdateDto: UserUpdateDto) {
     try {
-      console.log('hi')
       await this.usersService.updateUser(userId, userUpdateDto)
 
       return res.status(HttpStatus.OK).json({
