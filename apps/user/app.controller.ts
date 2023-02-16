@@ -1,11 +1,13 @@
-import { Controller, Get, Res, HttpStatus, UseGuards, HttpCode, Header } from '@nestjs/common'
+import { Controller, Get, Header, HttpCode, HttpStatus, UseGuards } from '@nestjs/common'
 import { AppService } from './app.service'
-import { AuthGuard } from '@nestjs/passport'
 import { ApiBearerAuth } from '@nestjs/swagger'
 import { AuthUser } from './shared/decorators/auth-user.decorator'
 import { IUsers } from './users/interfaces/users.interface'
+import { JwtAuthGuard } from './login/guard/jwt-auth.guard'
+import { Authentication, AuthenticationType } from './shared/decorators/authentication.decorator'
 
 @Controller()
+@Authentication(AuthenticationType.PUBLIC)
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
@@ -19,10 +21,12 @@ export class AppController {
   }
 
   @ApiBearerAuth()
-  @UseGuards(AuthGuard('jwt'))
+  @Authentication(AuthenticationType.PRIVATE)
+  @UseGuards(JwtAuthGuard)
   @Get('secure')
-  @HttpCode(HttpStatus.NO_CONTENT)
+  @HttpCode(HttpStatus.OK)
   async getProtectedResource(@AuthUser() user: IUsers) {
+    console.log('AuthUser -- ', user)
     return await this.appService.getSecureResource()
   }
 }

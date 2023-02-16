@@ -1,15 +1,17 @@
-import { Module } from '@nestjs/common';
-import { LoginService } from './login.service';
-import { LoginController } from './login.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Users } from '../users/entities/users.entity';
-import { JwtModule } from '@nestjs/jwt';
-import { UsersService } from '../users/users.service';
-import { PassportModule } from '@nestjs/passport';
-import { JwtStrategy } from './strategies/jwt.strategy';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { HashingService } from '../shared/hashing/hashing.service';
-import { BcryptService } from '../shared/hashing/bcrypt.service';
+import { Module } from '@nestjs/common'
+import { LoginService } from './login.service'
+import { LoginController } from './login.controller'
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { Users } from '../users/entities/users.entity'
+import { JwtModule } from '@nestjs/jwt'
+import { UsersService } from '../users/users.service'
+import { PassportModule } from '@nestjs/passport'
+import { JwtStrategy } from './strategies/jwt.strategy'
+import { ConfigModule, ConfigService } from '@nestjs/config'
+import { HashingService } from '../shared/hashing/hashing.service'
+import { BcryptService } from '../shared/hashing/bcrypt.service'
+import { APP_GUARD } from '@nestjs/core'
+import { JwtAuthGuard } from './guard/jwt-auth.guard'
 
 @Module({
   imports: [
@@ -35,6 +37,10 @@ import { BcryptService } from '../shared/hashing/bcrypt.service';
     LoginService,
     UsersService,
     JwtStrategy,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
   ],
   controllers: [LoginController],
 })
