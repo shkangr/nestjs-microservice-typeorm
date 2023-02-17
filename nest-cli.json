@@ -17,6 +17,15 @@
         "tsConfigPath": "apps/user/tsconfig.app.json"
       }
     },
+    "place": {
+      "type": "application",
+      "root": "apps/place",
+      "entryFile": "main",
+      "sourceRoot": "apps/place",
+      "compilerOptions": {
+        "tsConfigPath": "apps/place/tsconfig.app.json"
+      }
+    },
     "constant": {
       "type": "library",
       "root": "libs/constant",

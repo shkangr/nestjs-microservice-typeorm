@@ -12,6 +12,8 @@
     "start:dev": "nest start --watch",
     "start:user": "nest start user -d",
     "start:user:dev": "nest start user -d --watch",
+    "start:place": "nest start place -d",
+    "start:place:dev": "nest start place -d --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "start:repl": "nest start --entryFile repl",

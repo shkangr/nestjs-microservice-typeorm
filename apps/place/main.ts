@@ -40,7 +40,10 @@ async function bootstrap() {
     methods: 'GET,POST,PUT,PATCH,DELETE',
     credentials: true,
   })
-  const port = configService.get<number>('NODE_API_PORT_USER') || 3000
+  const port = configService.get<number>('NODE_API_PORT_PLACE') || 3001
+
+  console.log('port', port)
+
   await app.startAllMicroservices()
 
   await app.listen(port)

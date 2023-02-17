@@ -3,18 +3,14 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
-import { LoginModule } from './login/login.module'
-import { RegisterModule } from './register/register.module'
 import { UsersModule } from './users/users.module'
-import { ForgotPasswordModule } from './forgot-password/forgot-password.module'
-import { ChangePasswordModule } from './change-password/change-password.module'
 import { ThrottlerModule } from '@nestjs/throttler'
-import { UtilsModule } from './shared/utils/utils.module'
 import { Users } from './users/entities/users.entity'
 
 @Module({
   imports: [
     ConfigModule.forRoot({
+      isGlobal: true,
       envFilePath: ['.env', '.env.dev', '.env.stage', '.env.prod'],
     }),
     ThrottlerModule.forRootAsync({
@@ -45,12 +41,7 @@ import { Users } from './users/entities/users.entity'
         },
       }),
     }),
-    LoginModule,
-    RegisterModule,
     UsersModule,
-    ForgotPasswordModule,
-    ChangePasswordModule,
-    UtilsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
